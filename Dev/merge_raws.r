@@ -35,4 +35,4 @@ for (file in files_listed){
 
 combined <- unique(combined)
 
-write_csv(combined, "data/wsb_dd_submissions.csv")
+write_csv(combined, "data/merged_submissions.csv")

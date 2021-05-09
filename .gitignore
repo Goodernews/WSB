@@ -37,3 +37,5 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+Data/merged_submissions.csv
+Data/wsb_dd_submissions.csv

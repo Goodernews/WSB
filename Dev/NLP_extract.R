@@ -1,15 +1,9 @@
-#devtools::install_github("hadley/emo")
-
 library(tidyverse)
-#library(emo)
 library(tidytext)
 library(ggplot2)
 
-
-
-
-wsb <- read_csv("data/wsb_dd_submissions.csv")
-merged_common.csv <- read_csv("Dev/data-prep/merged_common.csv") %>%
+wsb <- read_csv("data/merged_submissions.csv")
+merged_common <- read_csv("Data/merged_common.csv") %>%
   mutate(Symbol = tolower(Symbol))
 
 
@@ -25,8 +19,8 @@ calc_sentiment <- function(string){
 
 named_stocks <- function(string){ # Finds stocks named
   split <- unlist(strsplit(tolower(string), "[[:punct:] ]"))
-  indexed <- match(split, merged_common.csv$Symbol)
-  vals <- toupper(merged_common.csv$Symbol[indexed])
+  indexed <- match(split, merged_common$Symbol)
+  vals <- toupper(merged_common$Symbol[indexed])
   clean <- vals[!is.na(vals)]
   return (paste(clean, collapse = ' '))
 }
@@ -43,9 +37,6 @@ clean_awards <- function(string){ # Takes the all awardings column and returns t
   
   coin_awards <- str_extract_all(only_awards,"(?<=coin_price': ).+(?=, 'coin_reward)")
   coin_awards <- sum(as.numeric(unlist(coin_awards)))
-  
-  # award_names <- str_extract_all(only_awards,"(?<=name': ').+(?=', 'penny_donate)")
-  # award_names <- paste(unlist(award_names), collapse= " ")
   
   return(list("count_awards" = count_awards, "coin_awards" = coin_awards))
 }
@@ -85,7 +76,6 @@ write_csv(wsb, "WSB-viz/www/wsb_dd_submissions.csv") # Writes to shiny
 
 # Supposed to reduce the payload, currently not fuctioning
 
-merged_common <- read_csv("Dev/data-prep/merged_common.csv")
 write_csv(merged_common, "WSB-viz/www/tickers.csv")
 
 # titles <- wsb$title_stocks
